@@ -17,7 +17,7 @@ const task_names = argv['_'].length > 0 ? argv['_'] : ['default'];
 // 动态创建任务，必须确保 /tasks/ 目录下存在此任务的配置文件
 task_names.forEach((task_name) => {
 	
-	const {js_path, css_path, dist_path} = require(`./tasks/${task_name}`);
+	const {js_path, css_path, copy_path, dist_path} = require(`./tasks/${task_name}`);
 	
 	// 压缩js
 	gulp.task(`${task_name}`, async function () {
@@ -36,9 +36,20 @@ task_names.forEach((task_name) => {
 		if(css_path){
 			await gulp.src(css_path)
 					.pipe(cleanCSS())
+					.on('error', function (err) {
+						gutil.log(gutil.colors.red('[Error]'), err.toString());
+					})
 					.pipe(gulp.dest(dist_path));
 		}
 		
+		// 如果存在 copy_path 则执行复制的任务
+		if(copy_path){
+			await gulp.src(copy_path)
+					.on('error', function (err) {
+						gutil.log(gutil.colors.red('[Error]'), err.toString());
+					})
+					.pipe(gulp.dest(dist_path));
+		}
 	});
 });
 

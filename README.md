@@ -39,14 +39,18 @@ gulp 的任务配置位于 `tasks` 目录下，默认任务为 `default.js`
 gulp
 ```
 
-`default` 任务默认会将压缩后的文件输出到 `dist` 目录下
+`default` 任务默认会将压缩后的文件输出到 `dist/default` 目录下
 
 2. 自定义任务
 
 在 `tasks` 目录下定义任务 JS 文件，`static.js`，文件名 `static` 为任务名称，内容如下：
 
 ```js
-const PROJECT_PATH = 'E:/static/';
+// 项目目录
+const PROJECT_PATH = './src/static/';
+
+// 压缩后文件的输出目录
+const DIST_PATH = './dist/static/';
 
 // 压缩的 JS 文件匹配规则
 const JS_PATH = `${PROJECT_PATH}/**/*.js`;
@@ -76,13 +80,27 @@ const EXCLUDE_PATH = [
 	`!${PROJECT_PATH}/**/video/**/*`,
 ];
 
-// 压缩后文件的输出目录
-const DIST_PATH = './dist/static/';
+// 需要复制的文件
+const COPY_PATH = [
+	`${PROJECT_PATH}/**/*.jpg`,
+	`${PROJECT_PATH}/**/*.jpeg`,
+	`${PROJECT_PATH}/**/*.png`,
+	`${PROJECT_PATH}/**/*.gif`,
+	`${PROJECT_PATH}/**/*.svg`,
+	`${PROJECT_PATH}/**/*.otf`,
+	`${PROJECT_PATH}/**/*.eot`,
+	`${PROJECT_PATH}/**/*.ttf`,
+	`${PROJECT_PATH}/**/*.woff`,
+	`${PROJECT_PATH}/**/*.min.js`,
+	`${PROJECT_PATH}/**/*.min.map`
+];
 
 module.exports = {
 	js_path: [JS_PATH, ...EXCLUDE_PATH],
 	css_path: [CSS_PATH, ...EXCLUDE_PATH],
 	dist_path: DIST_PATH,
+	// 如果不需要复制文件此处可以注释掉
+	copy_path: COPY_PATH,
 };
 ```
 
