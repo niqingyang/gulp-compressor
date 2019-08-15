@@ -116,7 +116,7 @@ gulp static
 gulp task1 task2 task3
 ```
 
-
+3. 该脚本除压缩 JS、CSS 输出到指定目录外，还具备从目录中分离出指定文件的功能
 
 
 
