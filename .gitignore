@@ -64,3 +64,4 @@ typings/
 /src
 /tasks/*
 !/tasks/default.js
+/package-lock.json

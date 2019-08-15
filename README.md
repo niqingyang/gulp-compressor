@@ -5,13 +5,13 @@
 # 安装
 
 
-## 安装 gulp
+1. 安装 gulp
 
 ```js
 npm install --global gulp-cli
 ```
 
-## 下载 gulp-compressor
+2. 下载 gulp-compressor
 
 ```shell
 ## 下载
@@ -20,7 +20,7 @@ git clone git@github.com:niqingyang/gulp-compressor.git
 cd gulp-compressor
 ```
 
-## 初始化
+3. 初始化
 
 ```shell
 npm install
@@ -28,7 +28,7 @@ npm install
 
 # 使用说明
 
-## 默认任务
+1. 默认任务
 
 gulp 的任务配置位于 `tasks` 目录下，默认任务为 `default.js`
 
@@ -39,7 +39,9 @@ gulp 的任务配置位于 `tasks` 目录下，默认任务为 `default.js`
 gulp
 ```
 
-## 自定义任务
+`default` 任务默认会将压缩后的文件输出到 `dist` 目录下
+
+2. 自定义任务
 
 在 `tasks` 目录下定义任务 JS 文件，`static.js`，文件名 `static` 为任务名称，内容如下：
 
