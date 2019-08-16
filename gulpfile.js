@@ -54,7 +54,7 @@ const task_names = argv['_'].length > 0 ? argv['_'] : ['default'];
 // 动态创建任务，必须确保 /tasks/ 目录下存在此任务的配置文件
 task_names.forEach((task_name) => {
 	
-	// js_path, css_path, copy_path, dest_path
+	// js_path, css_path, src_path, dest_path, copy_path
 	const paths = require(`./tasks/${task_name}`);
 	
 	// 压缩js
@@ -70,7 +70,7 @@ task_names.forEach((task_name) => {
 					.on('error', function (err) {
 						gutil.log(gutil.colors.red('[JS Error]'), err.toString());
 					})
-					.pipe(gulp.dest(dest || dest_path || './dest'));
+					.pipe(gulp.dest(dest || paths.dest_path || './dest'));
 		}
 		
 		// 如果存在 css_path 则执行压缩 css 的任务
@@ -83,7 +83,7 @@ task_names.forEach((task_name) => {
 					.on('error', function (err) {
 						gutil.log(gutil.colors.red('[CSS Error]'), err.toString());
 					})
-					.pipe(gulp.dest(dest || dest_path || './dest'));
+					.pipe(gulp.dest(dest || paths.dest_path || './dest'));
 		}
 		
 		// 如果存在 copy_path 则执行复制的任务
@@ -95,7 +95,7 @@ task_names.forEach((task_name) => {
 					.on('error', function (err) {
 						gutil.log(gutil.colors.red('[Error]'), err.toString());
 					})
-					.pipe(gulp.dest(dest || dest_path || './dest'));
+					.pipe(gulp.dest(dest || paths.dest_path || './dest'));
 		}
 	});
 });
