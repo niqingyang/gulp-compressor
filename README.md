@@ -47,58 +47,61 @@ gulp
 
 ```js
 // 项目目录
-const PROJECT_PATH = './src/static/';
+const SRC_PATH = './src/static/';
 
 // 压缩后文件的输出目录
-const DIST_PATH = './dist/static/';
+const DEST_PATH = './dest/static/';
 
 // 压缩的 JS 文件匹配规则
-const JS_PATH = `${PROJECT_PATH}/**/*.js`;
+const JS_PATH = `{SRC_PATH}/**/*.js`;
 
 // 压缩的 CSS 文件匹配规则
-const CSS_PATH = `${PROJECT_PATH}/**/*.css`;
+const CSS_PATH = `{SRC_PATH}/**/*.css`;
 
 // 排除不压缩的文件
 const EXCLUDE_PATH = [
-	`!${PROJECT_PATH}/**/*.min.js`,
-	`!${PROJECT_PATH}/**/*.min.css`,
-	`!${PROJECT_PATH}/data/**/*`,
-	`!${PROJECT_PATH}/esview/**/*`,
-	`!${PROJECT_PATH}/service/**/*`,
-	`!${PROJECT_PATH}/vendor/**/*`,
-	`!${PROJECT_PATH}/static/bootstrap/**/*`,
-	`!${PROJECT_PATH}/static/iconfont/**/*`,
-	`!${PROJECT_PATH}/static/js/jquery.js`,
-	`!${PROJECT_PATH}/static/js/jquery-ui.js`,
-	`!${PROJECT_PATH}/**/assets/**/*`,
-	`!${PROJECT_PATH}/**/page/**/*`,
-	`!${PROJECT_PATH}/**/image_upload/**/*`,
-	`!${PROJECT_PATH}/**/layer/**/*`,
-	`!${PROJECT_PATH}/**/mobiscroll/**/*`,
-	`!${PROJECT_PATH}/**/pic/**/*`,
-	`!${PROJECT_PATH}/**/photoclip/**/*`,
-	`!${PROJECT_PATH}/**/video/**/*`,
+	`!{SRC_PATH}/**/*.min.js`,
+	`!{SRC_PATH}/**/*.min.css`,
+	`!{SRC_PATH}/data/**/*`,
+	`!{SRC_PATH}/esview/**/*`,
+	`!{SRC_PATH}/service/**/*`,
+	`!{SRC_PATH}/vendor/**/*`,
+	`!{SRC_PATH}/static/bootstrap/**/*`,
+	`!{SRC_PATH}/static/iconfont/**/*`,
+	`!{SRC_PATH}/static/js/jquery.js`,
+	`!{SRC_PATH}/static/js/jquery-ui.js`,
+	`!{SRC_PATH}/**/assets/**/*`,
+	`!{SRC_PATH}/**/page/**/*`,
+	`!{SRC_PATH}/**/image_upload/**/*`,
+	`!{SRC_PATH}/**/layer/**/*`,
+	`!{SRC_PATH}/**/mobiscroll/**/*`,
+	`!{SRC_PATH}/**/pic/**/*`,
+	`!{SRC_PATH}/**/photoclip/**/*`,
+	`!{SRC_PATH}/**/video/**/*`,
 ];
 
 // 需要复制的文件
 const COPY_PATH = [
-	`${PROJECT_PATH}/**/*.jpg`,
-	`${PROJECT_PATH}/**/*.jpeg`,
-	`${PROJECT_PATH}/**/*.png`,
-	`${PROJECT_PATH}/**/*.gif`,
-	`${PROJECT_PATH}/**/*.svg`,
-	`${PROJECT_PATH}/**/*.otf`,
-	`${PROJECT_PATH}/**/*.eot`,
-	`${PROJECT_PATH}/**/*.ttf`,
-	`${PROJECT_PATH}/**/*.woff`,
-	`${PROJECT_PATH}/**/*.min.js`,
-	`${PROJECT_PATH}/**/*.min.map`
+	`{SRC_PATH}/**/*.jpg`,
+	`{SRC_PATH}/**/*.jpeg`,
+	`{SRC_PATH}/**/*.png`,
+	`{SRC_PATH}/**/*.gif`,
+	`{SRC_PATH}/**/*.svg`,
+	`{SRC_PATH}/**/*.otf`,
+	`{SRC_PATH}/**/*.eot`,
+	`{SRC_PATH}/**/*.ttf`,
+	`{SRC_PATH}/**/*.woff`,
+	`{SRC_PATH}/**/*.min.js`,
+	`{SRC_PATH}/**/*.min.map`
 ];
 
 module.exports = {
 	js_path: [JS_PATH, ...EXCLUDE_PATH],
 	css_path: [CSS_PATH, ...EXCLUDE_PATH],
-	dist_path: DIST_PATH,
+	// 将在运行过程中替换路径中的 {SRC_PATH}
+	src_path: SRC_PATH,
+	// 输出目录
+	dest_path: DEST_PATH,
 	// 如果不需要复制文件此处可以注释掉
 	copy_path: COPY_PATH,
 };
@@ -115,6 +118,17 @@ gulp static
 ```shell
 gulp task1 task2 task3
 ```
+
+在命令行中指定 src 和 dest 目录参数
+
+```shell
+gulp default --src E:/static/ --dest E:/static_dest/
+```
+
+> 注意：
+> - 如果指定了参数 src 但没指定 dest，则 dest 默认为 src + "_dest"
+> - 命令行中的目录参数优先级最高
+
 
 3. 该脚本除压缩 JS、CSS 输出到指定目录外，还具备从目录中分离出指定文件的功能
 
