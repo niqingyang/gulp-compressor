@@ -3,7 +3,9 @@ var gulp = require('gulp'),
 	rename = require('gulp-rename'),
 	gutil = require('gulp-util'),
     uglify = require('gulp-uglify'),
-	yParser = require('yargs-parser');
+	concat = require('gulp-concat'),
+	yParser = require('yargs-parser'),
+	path = require("path");
 
 // 执行命令与 gulp 命令格式一样，只要确保 task 存在于 /tasks/ 目录下即可
 // 示例：gulp 68shop.me default
@@ -25,8 +27,25 @@ function srcPathReplace(paths, src){
 	if(typeof paths === "string"){
 		paths = paths.replace(/{SRC_PATH}/g, src);
 	}else{
-		paths = paths.map(function(path){
-			return path.replace(/{SRC_PATH}/g, src);
+		paths = paths.map(function(item){
+			return item.replace(/{SRC_PATH}/g, src);
+		});
+	}
+	return paths;
+}
+
+// 替换 dest_path 中的 {DEST_PATH} 为指定的路径
+function destPathReplace(paths, dest){
+	
+	if(dest === undefined || dest === null){
+		return paths;
+	}
+	
+	if(typeof paths === "string"){
+		paths = paths.replace(/{DEST_PATH}/g, dest);
+	}else{
+		paths = paths.map(function(item){
+			return item.replace(/{DEST_PATH}/g, dest);
 		});
 	}
 	return paths;
@@ -97,6 +116,23 @@ task_names.forEach((task_name) => {
 					})
 					.pipe(gulp.dest(dest || paths.dest_path || './dest'));
 		}
+		
+		// 如果存在 merge_list 则执行合并任务
+		if(paths.merge_list){
+			
+			paths.merge_list.forEach(async function(item){
+				var merge_path = srcPathReplace(item[0], src || paths.src_path || './src');;
+				var merge_file = destPathReplace(item[1], dest || paths.dest_path || './dest');
+								
+				await gulp.src(merge_path)
+					.pipe(uglify())
+					.pipe(concat(path.basename(merge_file)))
+					.on('error', function (err) {
+						gutil.log(gutil.colors.red('[Merge Error]'), err.toString());
+					})
+					.pipe(gulp.dest(path.dirname(merge_file) || paths.dest_path || './dest'));
+			})
+		}
 	});
 });
 
@@ -106,4 +142,4 @@ gulp.task('min', async function() {
 		.pipe(uglify())
 		.pipe(rename({suffix: '.min'}))
 		.pipe(gulp.dest(dest_path))
-});	
+});

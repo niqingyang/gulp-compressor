@@ -1,6 +1,6 @@
 # gulp-compressor
 
-使用 gulp 压缩 JS、CSS，简单封装了一下，便于通过 JS 来自定义不同的压缩任务
+使用 gulp 压缩、合并 JS 和 CSS，简单封装了一下，便于通过 JS 配置来自定义不同的任务进行压缩合并静态资源
 
 # 安装
 
@@ -95,6 +95,37 @@ const COPY_PATH = [
 	`{SRC_PATH}/**/*.min.map`
 ];
 
+// 需要合并的文件，支持JS、CSS
+const MERGE_LIST = [
+	[
+		// 待合并的 JS 文件列表
+		[
+			'{SRC_PATH}/static/js/layer/layer.js',
+			'{SRC_PATH}/static/js/jquery.cookie.js',
+			'{SRC_PATH}/static/js/jquery.method.js',
+			'{SRC_PATH}/static/js/jquery.widget.js',
+			'{SRC_PATH}/static/js/jquery.modal.js',
+			'{SRC_PATH}/static/js/table/jquery.tablelist.js',
+			'{SRC_PATH}/static/js/message/message.js',
+			'{SRC_PATH}/static/js/message/messageWS.js',
+		],
+		// 合并后输出的文件路径
+		`{DEST_PATH}/static/min/all.min.js`
+	],
+	[
+		// 待合并的 JS 文件列表
+		[
+			'{SRC_PATH}/static/js/validate/jquery.metadata.js',
+			'{SRC_PATH}/static/js/validate/jquery.validate.js',
+			'{SRC_PATH}/static/js/validate/jquery.validate.custom.js',
+			'{SRC_PATH}/static/js/validate/messages_zh.js',
+		],
+		// 合并后输出的文件路径
+		`{DEST_PATH}/static/min/validate.min.js`
+	]
+];
+
+// 导出配置
 module.exports = {
 	js_path: [JS_PATH, ...EXCLUDE_PATH],
 	css_path: [CSS_PATH, ...EXCLUDE_PATH],
@@ -104,6 +135,8 @@ module.exports = {
 	dest_path: DEST_PATH,
 	// 如果不需要复制文件此处可以注释掉
 	copy_path: COPY_PATH,
+	// 如果不需要合并文件此处可以注释掉
+	merge_list: MERGE_LIST,
 };
 ```
 
