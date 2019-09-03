@@ -95,33 +95,40 @@ const COPY_PATH = [
 	`{SRC_PATH}/**/*.min.map`
 ];
 
-// 需要合并的文件，支持JS、CSS
-const MERGE_LIST = [
+// 需要合并的 JS 文件
+const JS_MREGE = [
 	[
 		// 待合并的 JS 文件列表
 		[
-			'{SRC_PATH}/static/js/layer/layer.js',
-			'{SRC_PATH}/static/js/jquery.cookie.js',
-			'{SRC_PATH}/static/js/jquery.method.js',
-			'{SRC_PATH}/static/js/jquery.widget.js',
-			'{SRC_PATH}/static/js/jquery.modal.js',
-			'{SRC_PATH}/static/js/table/jquery.tablelist.js',
-			'{SRC_PATH}/static/js/message/message.js',
-			'{SRC_PATH}/static/js/message/messageWS.js',
+			'{SRC_PATH}/static/js/A.js',
+			'{SRC_PATH}/static/js/B.js',
+			'{SRC_PATH}/static/js/C.js',
 		],
 		// 合并后输出的文件路径
-		`{DEST_PATH}/static/min/all.min.js`
+		`{DEST_PATH}/static/min/js/ABC.min.js`
 	],
 	[
 		// 待合并的 JS 文件列表
 		[
-			'{SRC_PATH}/static/js/validate/jquery.metadata.js',
-			'{SRC_PATH}/static/js/validate/jquery.validate.js',
-			'{SRC_PATH}/static/js/validate/jquery.validate.custom.js',
-			'{SRC_PATH}/static/js/validate/messages_zh.js',
+			'{SRC_PATH}/static/js/E.js',
+			'{SRC_PATH}/static/js/F.js',
+			'{SRC_PATH}/static/js/G.js',
 		],
 		// 合并后输出的文件路径
-		`{DEST_PATH}/static/min/validate.min.js`
+		`{DEST_PATH}/static/min/js/EFG.min.js`
+	],
+];
+
+const CSS_MREGE = [
+	[
+		// 待合并的 CSS 文件列表
+		[
+			`{SRC_PATH}/static/css/A.css`,
+			`{SRC_PATH}/static/css/B.css`,
+			`{SRC_PATH}/static/css/C.css`,
+		],
+		// 合并后输出的文件路径
+		`{DEST_PATH}/static/min/css/ABC.min.css`
 	]
 ];
 
@@ -136,7 +143,9 @@ module.exports = {
 	// 如果不需要复制文件此处可以注释掉
 	copy_path: COPY_PATH,
 	// 如果不需要合并文件此处可以注释掉
-	merge_list: MERGE_LIST,
+	js_merge: JS_MERGE,
+	// 如果不需要合并文件此处可以注释掉
+	css_merge: CSS_MERGE,
 };
 ```
 

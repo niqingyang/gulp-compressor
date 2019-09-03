@@ -117,15 +117,32 @@ task_names.forEach((task_name) => {
 					.pipe(gulp.dest(dest || paths.dest_path || './dest'));
 		}
 		
-		// 如果存在 merge_list 则执行合并任务
-		if(paths.merge_list){
+		// 如果存在 js_merge 则执行合并任务
+		if(paths.js_merge){
 			
-			paths.merge_list.forEach(async function(item){
+			paths.js_merge.forEach(async function(item){
 				var merge_path = srcPathReplace(item[0], src || paths.src_path || './src');;
 				var merge_file = destPathReplace(item[1], dest || paths.dest_path || './dest');
-								
+				
 				await gulp.src(merge_path)
 					.pipe(uglify())
+					.pipe(concat(path.basename(merge_file)))
+					.on('error', function (err) {
+						gutil.log(gutil.colors.red('[Merge Error]'), err.toString());
+					})
+					.pipe(gulp.dest(path.dirname(merge_file) || paths.dest_path || './dest'));
+			})
+		}
+		
+		// 如果存在 css_merge 则执行合并任务
+		if(paths.css_merge){
+			
+			paths.css_merge.forEach(async function(item){
+				var merge_path = srcPathReplace(item[0], src || paths.src_path || './src');;
+				var merge_file = destPathReplace(item[1], dest || paths.dest_path || './dest');
+				
+				await gulp.src(merge_path)
+					.pipe(cleanCSS())
 					.pipe(concat(path.basename(merge_file)))
 					.on('error', function (err) {
 						gutil.log(gutil.colors.red('[Merge Error]'), err.toString());
